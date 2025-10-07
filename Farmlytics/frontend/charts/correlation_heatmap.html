@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Correlation Heatmap</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #heatmap { width: 100%; max-width: 900px; height: 700px; margin: auto; }
+    </style>
+</head>
+<body>
+    <h2>Correlation Heatmap</h2>
+    <div id="heatmap"></div>
+    <script>
+        // Example data, replace with your actual correlation matrix and labels
+        const z = [
+            [1, 0.8, -0.2],
+            [0.8, 1, -0.5],
+            [-0.2, -0.5, 1]
+        ];
+        const labels = ['Feature 1', 'Feature 2', 'Feature 3'];
+
+        const data = [{
+            z: z,
+            x: labels,
+            y: labels,
+            type: 'heatmap',
+            colorscale: 'RdBu',
+            reversescale: true,
+            zmin: -1,
+            zmax: 1,
+            colorbar: {
+                title: 'Correlation'
+            }
+        }];
+
+        const layout = {
+            margin: { t: 50 },
+            xaxis: { side: 'top' },
+            yaxis: { autorange: 'reversed' }
+        };
+
+        Plotly.newPlot('heatmap', data, layout);
+    </script>
+</body>
+</html>

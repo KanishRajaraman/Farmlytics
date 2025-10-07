@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pH Value Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>pH Value Chart</h2>
+    <canvas id="phChart" width="600" height="400"></canvas>
+    <script>
+        // Example data, replace with your actual data from chart.py
+        const labels = ['Sample 1', 'Sample 2', 'Sample 3', 'Sample 4'];
+        const data = [6.5, 7.0, 7.2, 6.8];
+
+        const ctx = document.getElementById('phChart').getContext('2d');
+        const phChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'pH Value',
+                    data: data,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 0,
+                        max: 14
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

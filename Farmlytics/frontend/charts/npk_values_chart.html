@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NPK Values Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>NPK Values Over Time</h2>
+    <canvas id="npkChart" width="800" height="400"></canvas>
+    <script>
+        // Example data, replace with your actual data from chart.py
+        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+        const nitrogen = [12, 19, 3, 5, 2, 3];
+        const phosphorus = [2, 3, 20, 5, 1, 4];
+        const potassium = [3, 10, 13, 15, 22, 30];
+
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Nitrogen (N)',
+                    data: nitrogen,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false,
+                    tension: 0.1
+                },
+                {
+                    label: 'Phosphorus (P)',
+                    data: phosphorus,
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    fill: false,
+                    tension: 0.1
+                },
+                {
+                    label: 'Potassium (K)',
+                    data: potassium,
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    fill: false,
+                    tension: 0.1
+                }
+            ]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'NPK Values Over Time'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Value'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    }
+                }
+            },
+        };
+
+        new Chart(
+            document.getElementById('npkChart'),
+            config
+        );
+    </script>
+</body>
+</html>

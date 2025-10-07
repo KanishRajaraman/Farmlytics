@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rainfall Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #chart-container { width: 80%; margin: auto; }
+    </style>
+</head>
+<body>
+    <h2>Rainfall Chart</h2>
+    <div id="chart-container">
+        <canvas id="rainfallChart"></canvas>
+    </div>
+    <script>
+        // Example data, replace with your actual data from chart.py
+        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Rainfall (mm)',
+                data: [50, 70, 40, 90, 60, 80],
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Monthly Rainfall'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Rainfall (mm)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Month' }
+                    }
+                }
+            }
+        };
+
+        new Chart(
+            document.getElementById('rainfallChart'),
+            config
+        );
+    </script>
+</body>
+</html>

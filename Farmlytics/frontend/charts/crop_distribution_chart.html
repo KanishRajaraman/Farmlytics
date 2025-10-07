@@ -1,0 +1,49 @@
+<!-- crop_distribution_chart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Distribution Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Crop Distribution</h2>
+    <canvas id="cropDistributionChart" width="400" height="400"></canvas>
+    <script>
+        // Example data, replace with dynamic data as needed
+        const cropLabels = ['Wheat', 'Rice', 'Corn', 'Soybean'];
+        const cropData = [30, 25, 20, 25];
+
+        const ctx = document.getElementById('cropDistributionChart').getContext('2d');
+        const cropDistributionChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: cropLabels,
+                datasets: [{
+                    label: 'Crop Distribution',
+                    data: cropData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Crop Distribution'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

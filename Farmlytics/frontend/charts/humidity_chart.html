@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Humidity Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #chart-container { width: 80%; margin: auto; }
+    </style>
+</head>
+<body>
+    <h2>Humidity Over Time</h2>
+    <div id="chart-container">
+        <canvas id="humidityChart"></canvas>
+    </div>
+    <script>
+        // Example data, replace with dynamic data as needed
+        const labels = ['2024-06-01', '2024-06-02', '2024-06-03', '2024-06-04', '2024-06-05'];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Humidity (%)',
+                data: [65, 70, 68, 72, 75],
+                fill: false,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                tension: 0.1
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Daily Humidity Levels'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Humidity (%)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Date' }
+                    }
+                }
+            }
+        };
+
+        new Chart(
+            document.getElementById('humidityChart'),
+            config
+        );
+    </script>
+</body>
+</html>

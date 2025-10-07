@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmlytics - Smart Agricultural Analytics</title>
+    <link rel="stylesheet" href="../static/css/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        #chatToggleBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #43a047 60%, #81c784 100%);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: transform 0.25s cubic-bezier(.4,2,.6,1), background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: bounceIn 0.7s;
+        }
+        #chatToggleBtn:hover {
+            background: linear-gradient(135deg, #388e3c 60%, #66bb6a 100%);
+            transform: scale(1.12) rotate(-8deg);
+            box-shadow: 0 8px 24px rgba(67, 160, 71, 0.25);
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        #chatContainer {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 370px;
+            height: 520px;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 12px 32px rgba(67,160,71,0.18), 0 2px 8px rgba(0,0,0,0.10);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            animation: fadeInUp 0.5s;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .chat-header {
+            background: linear-gradient(90deg, #388e3c 70%, #81c784 100%);
+            color: white;
+            text-align: center;
+            padding: 14px 10px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(67,160,71,0.08);
+            animation: slideDown 0.6s;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-30px); opacity: 0;}
+            to { transform: translateY(0); opacity: 1;}
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 14px 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #f8fff8;
+            scroll-behavior: smooth;
+            animation: fadeIn 0.6s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0;}
+            to { opacity: 1;}
+        }
+
+        .message {
+            padding: 10px 16px;
+            border-radius: 20px;
+            max-width: 85%;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            font-size: 1.05rem;
+            box-shadow: 0 2px 8px rgba(67,160,71,0.07);
+            opacity: 0;
+            animation: messagePop 0.4s forwards;
+        }
+        @keyframes messagePop {
+            from { transform: scale(0.8); opacity: 0;}
+            to { transform: scale(1); opacity: 1;}
+        }
+        .user {
+            background: linear-gradient(90deg, #43a047 80%, #81c784 100%);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 6px;
+            border-top-right-radius: 6px;
+            box-shadow: 0 2px 8px rgba(67,160,71,0.10);
+        }
+        .bot {
+            background: #e8f5e9;
+            color: #2e7d32;
+            align-self: flex-start;
+            border-bottom-left-radius: 6px;
+            border-top-left-radius: 6px;
+            border: 1px solid #c8e6c9;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+            background: #f4fff4;
+            padding: 6px 8px;
+            align-items: center;
+            animation: fadeIn 0.7s;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1.5px solid #b2d8b2;
+            border-radius: 8px;
+            outline: none;
+            font-size: 1rem;
+            background: #fff;
+            margin-right: 8px;
+            transition: border 0.2s;
+            color: #000 !important;
+        }
+        .chat-input input:focus {
+            border: 1.5px solid #43a047;
+        }
+        .chat-input button {
+            padding: 10px 18px;
+            border: none;
+            background: linear-gradient(90deg, #43a047 80%, #81c784 100%);
+            color: white;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            box-shadow: 0 2px 8px rgba(67,160,71,0.10);
+        }
+        .chat-input button:hover:not(:disabled) {
+            background: linear-gradient(90deg, #388e3c 80%, #66bb6a 100%);
+            transform: scale(1.07);
+        }
+        .chat-input button:disabled {
+            background: #bdbdbd;
+            cursor: not-allowed;
+            color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="../static/images/logo.png" alt="Farmlytics Logo">
+                <span>Farmlytics</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../templates/home.html" class="nav-link active">Home</a></li>
+                <li><a href="../templates/prediction.html" class="nav-link">Predict</a></li>
+                <li><a href="../templates/guide.html" class="nav-link">Guidance</a></li>
+                <li><a href="../templates/dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <video autoplay muted loop id="bgVideo">
+            <source src="../static/videos/best_bg.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1 class="hero-title">Transform Agriculture with Data-Driven Insights</h1>
+            <p class="hero-subtitle">Leverage AI-powered predictions and real-time analytics to maximize your crop yields</p>
+            <a href="../templates/prediction.html" class="cta-button">Start Predicting</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <img src="../static/images/crop_prediction.jpg" alt="Crop Prediction">
+                    <h3>Crop Prediction</h3>
+                    <p>AI-powered crop yield prediction based on environmental factors</p>
+                </div>
+                <div class="service-card">
+                    <img src="../static/images/smart_analysis.jpg" alt="Smart Analysis">
+                    <h3>Smart Analytics</h3>
+                    <p>Interactive dashboards with comprehensive visualization types</p>
+                </div>
+                <div class="service-card">
+                    <img src="../static/images/actinable_insights.jpg" alt="Actionable Insights">
+                    <h3>Actionable Insights</h3>
+                    <p>Data-driven recommendations for optimal farming decisions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Farmlytics</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>We empower farmers with cutting-edge technology to make informed decisions about crop selection and yield optimization.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <h3>5000+</h3>
+                            <p>Farmers Served</p>
+                        </div>
+                        <div class="stat">
+                            <h3>95%</h3>
+                            <p>Prediction Accuracy</p>
+                        </div>
+                        <div class="stat">
+                            <h3>50+</h3>
+                            <p>Crop Types</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="../static/images/about_us.png" alt="About Farmlytics">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHATBOT WIDGET HTML START -->
+    <button id="chatToggleBtn" aria-label="Toggle Chatbot">
+        💬
+    </button>
+
+    <div id="chatContainer">
+        <div class="chat-header">🌱 SmartCrop Chatbot</div>
+        <div class="chat-box" id="chatBox">
+            <div class="message bot">
+                Hello! I'm your SmartCrop Advisor Bot. I can help you with crop stages, financials, pests, or market information.
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ask me anything..." onkeydown="handleKeyPress(event)">
+            <button id="sendButton" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <!-- CHATBOT WIDGET HTML END -->
+
+    <!-- CHATBOT WIDGET LOGIC START -->
+    <script>
+        // --- Configuration ---
+        const FLASK_CHATBOT_URL = 'http://127.0.0.1:5000/chatbot'; 
+
+        const chatContainer = document.getElementById('chatContainer');
+        const chatToggleBtn = document.getElementById('chatToggleBtn');
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // --- Widget Toggle Function ---
+        chatToggleBtn.addEventListener('click', () => {
+            if (chatContainer.style.display === 'flex') {
+                chatContainer.style.display = 'none';
+                chatToggleBtn.innerHTML = '💬';
+            } else {
+                chatContainer.style.display = 'flex';
+                chatToggleBtn.innerHTML = '✖';
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
+
+        // --- UI Helper Functions ---
+        function appendMessage(sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = message.replace(/\n/g, '<br>');
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function toggleLoading(isLoading) {
+            sendButton.disabled = isLoading;
+            sendButton.textContent = isLoading ? '...' : 'Send';
+            userInput.disabled = isLoading;
+        }
+
+        // --- Core Chatbot Logic (Sends message to Flask) ---
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            appendMessage('user', message);
+            userInput.value = '';
+            toggleLoading(true);
+
+            try {
+                const res = await fetch(FLASK_CHATBOT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+
+                const data = await res.json();
+                appendMessage('bot', data.reply);
+
+            } catch (err) {
+                console.error("Error communicating with the chatbot backend:", err);
+                appendMessage('bot', `🚨 Error: Could not reach the server. Ensure your Flask backend is running at ${FLASK_CHATBOT_URL}.`);
+            } finally {
+                toggleLoading(false);
+            }
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // --- Event Handlers ---
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !sendButton.disabled) {
+                sendMessage();
+            }
+        }
+
+        document.getElementById('userInput').addEventListener('keydown', handleKeyPress);
+    </script>
+    <!-- CHATBOT WIDGET LOGIC END -->
+
+    <script src="../static/js/home.js"></script>
+
+
+</html></body></body>
+</html>

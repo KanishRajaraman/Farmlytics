@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost Calculator - Farmlytics</title>
+    <!-- We reuse prediction.css for the navbar and general variables -->
+    <link rel="stylesheet" href="../static/css/prediction.css">
+    <!-- Load calculator-specific styles -->
+    <link rel="stylesheet" href="../static/css/calculator.css"> 
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="../static/images/logo.png" alt="Farmlytics Logo">
+                <span>Farmlytics</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../templates/home.html">Home</a></li>
+                <li><a href="../templates/prediction.html">Predict</a></li>
+                <li class="active"><a href="../templates/calculator.html">Cost Calculator</a></li>
+                <li><a href="../templates/dashboard.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="calculator-container">
+        <h1 class="calculator-title">Crop Financial Calculator</h1>
+        <p class="calculator-subtitle">Estimate costs and potential revenue based on your land and budget.</p>
+
+        <form id="calculatorForm">
+            <fieldset class="form-fieldset">
+                <legend>Operational Details</legend>
+                <div class="form-group">
+                    <label for="cropName">Crop for Calculation</label>
+                    <select id="cropName" name="cropName" required>
+                        <option value="" disabled selected>Select a Predicted Crop</option>
+                        <!-- Options populated by JavaScript from top 5 prediction result -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="landArea">Land Area (in Hectares)</label>
+                    <input type="number" id="landArea" name="landArea" min="0.1" step="0.1" placeholder="e.g., 2.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="budget">Available Operational Budget (₹)</label>
+                    <input type="number" id="budget" name="budget" min="1000" step="500" placeholder="e.g., 200000" required>
+                </div>
+            </fieldset>
+            
+            <button type="submit" class="calculate-btn">Calculate Financials</button>
+        </form>
+
+        <div id="calculationResult" class="calculation-result" style="display: none;">
+            <h3 id="resultTitle">Financial Estimate for Rice</h3>
+            <div class="result-summary">
+                <div class="summary-item">
+                    <div class="summary-label">Total Estimated Cost</div>
+                    <div id="totalCost" class="summary-value">₹ 0.00</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Harvest Potential (Approx.)</div>
+                    <div id="harvestYield" class="summary-value">0 Quintals</div>
+                </div>
+            </div>
+            <p id="budgetWarning" class="warning-message" style="display: none;">
+                Warning: Your available budget is insufficient for the full cultivation cost.
+            </p>
+        </div>
+    </div>
+
+    <script type="module" src="../static/js/calculator.js"></script>
+</body>
+</html>

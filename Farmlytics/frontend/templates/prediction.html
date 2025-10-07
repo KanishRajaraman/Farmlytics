@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Prediction - Farmlytics</title>
+    <link rel="stylesheet" href="../static/css/prediction.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="../static/images/logo.png" alt="Farmlytics Logo">
+                <span>Farmlytics</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../templates/home.html">Home</a></li>
+                <li><a href="../templates/prediction.html" class="active">Predict</a></li>
+                <li><a href="../templates/guide.html" class="nav-link">Guidance</a></li>
+                <li><a href="../templates/dashboard.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="prediction-container">
+        <h1>Crop Recommendation Predictor</h1>
+        <p class="subtitle">Enter the details below to get an AI-powered crop recommendation.</p>
+        
+        <div class="prediction-form">
+            <form id="predictionForm">
+                
+                <fieldset class="form-fieldset">
+                    <legend>Soil Report Details</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nitrogen">Nitrogen (N)</label>
+                            <input type="number" id="nitrogen" name="nitrogen" placeholder="e.g., 90" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phosphorus">Phosphorus (P)</label>
+                            <input type="number" id="phosphorus" name="phosphorus" placeholder="e.g., 42" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="potassium">Potassium (K)</label>
+                            <input type="number" id="potassium" name="potassium" placeholder="e.g., 43" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ph">pH Level</label>
+                            <input type="number" id="ph" name="ph" step="0.1" min="0" max="14" placeholder="e.g., 6.5" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-fieldset">
+                    <legend>Area Details</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" id="state" name="state" placeholder="e.g., Jharkhand" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="district">District</label>
+                            <input type="text" id="district" name="district" placeholder="e.g., Ranchi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="Month">Month</label>
+                            <input type="text" id="Month" name="Month" placeholder="e.g., 8" required>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <button type="submit" class="predict-btn">Get Recommendation</button>
+            </form>
+        </div>
+
+        <div id="predictionResult" class="prediction-result" style="display: none;">
+            <h3>Prediction Results</h3>
+            <div class="result-card">
+                <div class="result-content">
+                    <img id="cropImage" src="" alt="Recommended Crop" class="crop-image">
+                    <div class="result-details">
+                        <div class="result-item">
+                            <span class="label">Recommended Crop:</span>
+                            <span id="predictedCrop" class="value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Confidence Score:</span>
+                            <span id="confidence" class="value"></span>
+                        </div>
+                    </div>
+                </div>
+                <p id="recommendationText" class="recommendation-text"></p>
+                
+                <div class="top5-section">
+                    <h4>Top 5 Crop Recommendations:</h4>
+                    <div id="top5Recommendations" class="top5-list-container">
+                        </div>
+                </div>
+                <button id="guideLink" class="analyze-btn" style="display: inline-block; margin-top: 1.5rem; padding: 0.75rem 2rem; background: #2f5926; color: #fff; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 600; cursor: pointer; box-shadow: 0 2px 8px rgba(47,89,38,0.08); transition: background 0.2s;">
+                    View Full Crop Guide & Financials
+                </button>
+                </div>
+        </div>
+    </div>
+    <footer style="background: #1C3315; color: #E8F3E6; text-align: center; padding: 1.5rem 0; margin-top: 40px;">
+        <p>Team Farmlytics</p>
+    </footer>
+    <script src="../static/js/prediction.js"></script>
+</body>
+</html>

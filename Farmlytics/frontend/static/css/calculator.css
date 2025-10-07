@@ -1,0 +1,157 @@
+/* Inherit base styles from prediction.css */
+:root {
+    --primary-green: #2F5926;
+    --dark-green: #1C3315;
+    --light-green: #4A7A3F;
+    --accent-green: #81B214;
+    --off-black: #1A1A1A;
+    --text-light: #E8F3E6;
+    --text-dark: #333333;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--off-black) 0%, var(--dark-green) 100%);
+    color: var(--text-light);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* Reusing prediction container styles */
+.calculator-container {
+    max-width: 700px;
+    margin: 100px auto 40px;
+    padding: 3rem;
+    background: rgba(47, 89, 38, 0.2);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calculator-title {
+    text-align: center;
+    font-size: 2.2rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.calculator-subtitle {
+    text-align: center;
+    color: var(--accent-green);
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.form-fieldset {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    background: rgba(47, 89, 38, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+input, select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 4px rgba(129, 178, 20, 0.15);
+}
+
+.calculate-btn {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0.8rem;
+    display: block;
+    background: var(--accent-green);
+    color: var(--off-black);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Result Card */
+.calculation-result {
+    margin-top: 3rem;
+    padding: 2.5rem;
+    background: var(--dark-green);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.result-summary {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.summary-item {
+    flex: 1;
+    padding: 1.5rem;
+    background: rgba(129, 178, 20, 0.1);
+    border-radius: 10px;
+    border-left: 3px solid var(--accent-green);
+}
+
+.summary-label {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+}
+
+.summary-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-green);
+}
+
+.warning-message {
+    color: #ffcc00; /* Yellow */
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .calculator-container {
+        margin: 80px 20px 40px;
+        padding: 1.5rem;
+    }
+    .result-summary {
+        flex-direction: column;
+    }
+    .summary-item {
+        margin-bottom: 1rem;
+    }
+}

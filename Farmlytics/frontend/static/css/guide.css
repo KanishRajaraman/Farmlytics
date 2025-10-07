@@ -1,0 +1,168 @@
+/* ======================================= */
+/* ====== GUIDE PAGE STYLES (guide.html) ====== */
+/* ======================================= */
+
+/* Main Container (Larger for more content) */
+.guide-container {
+    max-width: 1000px;
+    margin: 100px auto 40px;
+    padding: 3rem;
+    background: rgba(47, 89, 38, 0.2);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Header and Crop Name */
+.guide-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.crop-name {
+    font-size: 3rem;
+    color: var(--accent-green);
+    margin-top: 0.5rem;
+    font-weight: 700;
+}
+
+/* Crop Selection Dropdown Area */
+.select-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+/* Dropdown Styling (Reusing input/select styles from prediction.css) */
+/* Style for the top 5 crops dropdown menu */
+#cropSelect {
+    max-width: 250px;
+    background: #fff;         /* White background for visibility */
+    color: #222;              /* Dark text for contrast */
+    border: 2px solid #4CAF50;
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(76,175,80,0.08);
+    transition: border 0.2s, box-shadow 0.2s;
+    appearance: none;
+}
+
+#cropSelect:focus {
+    border: 2px solid #388e3c;
+    outline: none;
+    box-shadow: 0 0 0 2px #c8e6c9;
+}
+
+/* Ensure dropdown options are also black text on white background */
+#cropSelect option {
+    background: #fff;
+    color: #222;
+    font-weight: 500;
+}
+
+/* Tab Menu for Navigation */
+.tab-menu {
+    display: flex;
+    flex-wrap: wrap; /* Allows tabs to wrap on small screens */
+    justify-content: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    color: var(--text-light);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+    margin: 0 5px; /* Spacing between buttons */
+}
+
+.tab-button.active {
+    opacity: 1;
+    border-bottom: 3px solid var(--accent-green);
+    font-weight: 600;
+}
+
+/* Guide Content Area */
+.guide-content p, .guide-content ul {
+    font-size: 1rem;
+    opacity: 0.85;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.guide-content ul {
+    list-style: disc;
+    padding-left: 30px; /* Increased indent for readability */
+}
+
+/* Sub-headings within content */
+.guide-content h4 {
+    color: var(--accent-green);
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.8rem;
+    border-left: 4px solid var(--accent-green);
+    padding-left: 10px;
+}
+
+/* Financials Specific Styling */
+.financials ul {
+    list-style: none;
+    padding: 0;
+}
+
+.financials li {
+    background: rgba(129, 178, 20, 0.1);
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.financials li strong {
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+/* Responsive adjustments for guide page */
+@media (max-width: 1050px) {
+    .guide-container {
+        margin: 100px 20px 40px;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .crop-name {
+        font-size: 2rem;
+    }
+    .select-section {
+        flex-direction: column;
+    }
+    .tab-button {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tab-menu {
+        justify-content: space-around;
+    }
+    .tab-button {
+        margin: 0 2px;
+        flex-grow: 1;
+        text-align: center;
+    }
+}

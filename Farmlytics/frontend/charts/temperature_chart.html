@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #chart-container { width: 80%; margin: auto; }
+    </style>
+</head>
+<body>
+    <h2>Temperature Over Time</h2>
+    <div id="chart-container">
+        <canvas id="temperatureChart"></canvas>
+    </div>
+    <script>
+        // Example data, replace with your actual data from chart.py
+        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Temperature (°C)',
+                data: [12, 15, 18, 22, 25, 28],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Monthly Average Temperature'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: { display: true, text: 'Temperature (°C)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Month' }
+                    }
+                }
+            }
+        };
+
+        new Chart(
+            document.getElementById('temperatureChart'),
+            config
+        );
+    </script>
+</body>
+</html>
