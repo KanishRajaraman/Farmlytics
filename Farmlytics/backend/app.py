@@ -1,14 +1,52 @@
+from flask import Flask, request, jsonify, render_template
 import pandas as pd
 import joblib
-from flask import Flask, request, jsonify
 from flask_cors import CORS
 import datetime
 import os
 
 # Initialize the Flask application
-app = Flask(__name__)
+# Set up template and static folders relative to this file
+base_dir = os.path.dirname(os.path.abspath(__file__))
+template_dir = os.path.join(base_dir, '..', 'frontend', 'templates')
+static_dir = os.path.join(base_dir, '..', 'frontend', 'static')
+
+app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 # Enable CORS for the frontend to access the API from a different origin
 CORS(app)
+
+# --- FRONTEND ROUTES ---
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+@app.route('/home')
+def home_alt():
+    return render_template('home.html')
+
+@app.route('/index')
+def index():
+    return render_template('home.html')
+
+@app.route('/prediction')
+def prediction():
+    return render_template('prediction.html')
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/calculator')
+def calculator():
+    return render_template('calculator.html')
+
+@app.route('/guide')
+def guide():
+    return render_template('guide.html')
+
+@app.route('/chatbot')
+def chatbot():
+    return render_template('chatbot.html')
 
 # --- MODEL LOADING ---
 # Load all models and features once when the app starts.
@@ -125,6 +163,16 @@ def predict():
         predicted_crop = crop_labels[predicted_crop_index]
         confidence = probabilities[predicted_crop_index] * 100
         
+        # Get top 5 crop predictions
+        top_5_indices = probabilities.argsort()[-5:][::-1]
+        top_5 = []
+        for idx, rank in zip(top_5_indices, range(1, 6)):
+            top_5.append({
+                "crop_name": crop_labels[idx],
+                "confidence": f"{probabilities[idx] * 100:.2f}%",
+                "rank": rank
+            })
+        
         # 5. Return the prediction results
         # The image_url is a placeholder for demonstration purposes.
         image_url = f"https://placehold.co/100x100/A3EBB1/000000?text={predicted_crop.replace(' ', '+')}"
@@ -133,6 +181,7 @@ def predict():
             "predicted_crop": predicted_crop,
             "confidence": f"{confidence:.2f}%",
             "image_url": image_url,
+            "top_5": top_5,
             "recommendation_text": f"Based on the provided data, the recommended crop for your region is {predicted_crop}. This is based on a prediction confidence of {confidence:.2f}%."
         })
 

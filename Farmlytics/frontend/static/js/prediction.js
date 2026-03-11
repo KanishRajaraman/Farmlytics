@@ -91,7 +91,7 @@ function displayPrediction(result) {
 
     // Set the dynamic link to the full crop guide page
     const guideLink = document.getElementById('guideLink');
-    guideLink.href = `../templates/guide.html?crop=${encodeURIComponent(predictedCropName)}`;
+    guideLink.href = `/guide?crop=${encodeURIComponent(predictedCropName)}`;
 
     // --- CODE FOR TOP 5 DISPLAY ---
     const top5Container = document.getElementById('top5Recommendations');
@@ -119,5 +119,5 @@ function displayPrediction(result) {
 }
 
 document.getElementById('guideLink').addEventListener('click', function() {
-    window.location.href = '../templates/guide.html';
+    window.location.href = '/guide';
 });
