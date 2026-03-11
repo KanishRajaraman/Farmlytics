@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Crop Guide - SmartCrop Advisor</title>
+    <link rel="stylesheet" href="/static/css/prediction.css">
+    <style>
+        :root {
+            --accent-green: #4CAF50;
+            --text-light: #f4f4f4;
+            --accent-green-hover: #45a049;
+        }
+
+        .guide-container {
+            max-width: 1000px;
+            margin: 100px auto 40px;
+            padding: 3rem;
+            background: rgba(47, 89, 38, 0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .guide-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .crop-name {
+            font-size: 3rem;
+            color: var(--accent-green);
+            margin-top: 0.5rem;
+            font-weight: 700;
+        }
+        .tab-menu {
+            display: flex;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+        .tab-button {
+            background: transparent;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+        .tab-button.active {
+            opacity: 1;
+            border-bottom: 3px solid var(--accent-green);
+            font-weight: 600;
+        }
+        .guide-content p, .guide-content ul {
+            font-size: 1rem;
+            opacity: 0.85;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        .guide-content ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+        .guide-content h4 {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            margin-top: 2rem;
+        }
+        .select-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        .calculator-title {
+            font-size: 2rem;
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+        }
+        .calculator-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        .form-fieldset {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+        .calculate-btn {
+            background: var(--accent-green);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+        .calculate-btn:hover {
+            background: var(--accent-green-hover);
+        }
+        .calculation-result {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+        .result-summary {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap; 
+            gap: 1rem; 
+            margin-bottom: 1rem;
+        }
+        .summary-item {
+            flex: 1 1 45%; 
+            text-align: center;
+            padding: 0.5rem;
+        }
+        .summary-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        .summary-value {
+            font-size: 1.2rem;
+            color: var(--accent-green);
+            font-weight: 500;
+        }
+        .warning-message {
+            color: #ffcc00;
+            font-weight: 500;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ffcc00;
+            border-radius: 5px;
+        }
+        #totalProfit {
+            font-size: 1.4rem; 
+            font-weight: 700;
+        }
+        #chatToggleBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #43a047 60%, #81c784 100%);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        #chatContainer {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 370px;
+            height: 520px;
+            background: #fff;
+            border-radius: 18px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        .chat-header {
+            background: linear-gradient(90deg, #388e3c 70%, #81c784 100%);
+            color: white;
+            text-align: center;
+            padding: 14px;
+            font-weight: bold;
+        }
+        .chat-box {
+            flex: 1;
+            padding: 14px;
+            overflow-y: auto;
+            background: #f8fff8;
+        }
+        .message {
+            padding: 10px 16px;
+            border-radius: 20px;
+            max-width: 85%;
+            margin-bottom: 10px;
+        }
+        .user {
+            background: linear-gradient(90deg, #43a047 80%, #81c784 100%);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .bot {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+            padding: 8px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #b2d8b2;
+            border-radius: 8px;
+            margin-right: 8px;
+        }
+        .chat-input button {
+            padding: 10px 18px;
+            background: linear-gradient(90deg, #43a047 80%, #81c784 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/static/images/logo.png" alt="Farmlytics Logo">
+                <span>Farmlytics</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#prediction">Predict</a></li>
+                <li><a href="/#guide" class="active">Guidance</a></li>
+                <li><a href="/#dashboard">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="guide-container">
+        <div class="guide-header">
+            <p class="prediction-subtitle">Complete Guide from Plantation to Yield</p>
+            <h1 class="crop-name" id="currentCropName">Crop Name Loading...</h1>
+        </div>
+
+        <div class="select-section">
+            <label for="cropSelect" class="label">Select Crop Manually:</label>
+            <select id="cropSelect">
+                <option value="" disabled selected>Select a Crop</option>
+            </select>
+        </div>
+
+        <div class="tab-menu">
+            <button class="tab-button active" data-tab="plantation">Plantation & Soil</button>
+            <button class="tab-button" data-tab="maintenance">Maintenance & Care</button>
+            <button class="tab-button" data-tab="financials">Financials & Market</button>
+            <button class="tab-button" data-tab="calculator">Financial Calculator</button>
+        </div>
+
+        <div id="guideContent" class="guide-content">
+            <div id="plantation" class="tab-pane active"></div>
+            <div id="maintenance" class="tab-pane" style="display: none;"></div>
+            <div id="financials" class="tab-pane" style="display: none;"></div>
+            
+            <div id="calculator" class="tab-pane" style="display: none;">
+                <h2 class="calculator-title">Crop Financial Calculator</h2>
+                <p class="calculator-subtitle">Estimate costs and potential revenue based on your land and budget.</p>
+                <form id="calculatorForm">
+                    <fieldset class="form-fieldset">
+                        <legend>Operational Details</legend>
+                        <div class="form-group">
+                            <label for="landArea">Land Area (in Hectares)</label>
+                            <input type="number" id="landArea" min="0.1" step="0.1" placeholder="e.g., 2.5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Available Operational Budget (₹)</label>
+                            <input type="number" id="budget" min="1000" step="500" placeholder="e.g., 200000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="marketPrice">Current Market Price (₹ per Quintal)</label>
+                            <input type="number" id="marketPrice" placeholder="e.g., 5000" required>
+                        </div>
+                    </fieldset>
+                    <button type="submit" class="calculate-btn">Calculate Financials</button>
+                </form>
+                <div id="calculationResult" class="calculation-result" style="display: none;">
+                    <h3 id="resultTitle">Financial Estimate</h3>
+                    <div class="result-summary">
+                        <div class="summary-item">
+                            <div class="summary-label">Total Estimated Cost</div>
+                            <div id="totalCost" class="summary-value">₹ 0.00</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Estimated Harvest Potential</div>
+                            <div id="harvestYield" class="summary-value">0 Quintals</div>
+                        </div>
+                         <div class="summary-item">
+                            <div class="summary-label">Total Estimated Revenue</div>
+                            <div id="totalRevenue" class="summary-value">₹ 0.00</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Estimated Profit / (Loss)</div>
+                            <div id="totalProfit" class="summary-value">₹ 0.00</div>
+                        </div>
+                    </div>
+                    <p id="budgetWarning" class="warning-message" style="display: none;">
+                        Warning: Your available budget is insufficient for the full cultivation cost.
+                    </p>
+                </div>
+            </div>
+
+            <p id="initialMessage" style="text-align: center;">Please select a crop or return to the prediction page for an AI recommendation.</p>
+        </div>
+        
+        <p style="text-align: center; margin-top: 3rem; font-size: 0.9rem; opacity: 0.7;">
+            *This guide content is cached and available even with low or no internet connectivity.
+        </p>
+    </div>
+
+    <script type="module" src="/static/js/guide.js"></script>
+
+    <button id="chatToggleBtn" aria-label="Toggle Chatbot">💬</button>
+    <div id="chatContainer">
+        <div class="chat-header">🌱 SmartCrop Chatbot</div>
+        <div class="chat-box" id="chatBox">
+            <div class="message bot">Hello! I'm your SmartCrop Advisor Bot. I can help you with crop stages, financials, pests, or market information.</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ask me anything...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+    <script>
+        const FLASK_CHATBOT_URL = 'http://127.0.0.1:5000/chatbot'; 
+        const chatContainer = document.getElementById('chatContainer');
+        const chatToggleBtn = document.getElementById('chatToggleBtn');
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        chatToggleBtn.addEventListener('click', () => {
+            chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        function appendMessage(sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = message.replace(/\n/g, '<br>');
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            appendMessage('user', message);
+            userInput.value = '';
+            sendButton.disabled = true;
+            try {
+                const res = await fetch(FLASK_CHATBOT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await res.json();
+                appendMessage('bot', data.reply);
+            } catch (err) {
+                appendMessage('bot', '🚨 Error: Could not reach the server.');
+            } finally {
+                sendButton.disabled = false;
+            }
+        }
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+    </script>
+</body>
+</html>

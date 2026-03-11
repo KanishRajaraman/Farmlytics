@@ -1,5 +1,13 @@
-# Netlify redirect rules for SPA (Single Page Application)
-# This ensures all routes serve index.html for client-side routing
+# Netlify redirect rules for Farmlytics SPA
+# Serve appropriate HTML file for each route
 
-/*    /index.html   200
+/home          /index.html          200
+/prediction    /prediction.html     200
+/guide         /guide.html          200
+/dashboard     /dashboard.html      200
+/calculator    /dashboard.html      200
+/chatbot       /index.html          200
+
+# SPA fallback - serve index.html for client-side routing
+/*              /index.html          200
 

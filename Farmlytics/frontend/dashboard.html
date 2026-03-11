@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmlytics Dashboard</title>
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        #schemes-section {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .schemes-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .scheme-card {
+            background: #E8F3E6;
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .scheme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        .scheme-title {
+            color: #2F5926;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #81B214;
+            padding-bottom: 5px;
+        }
+        .scheme-description {
+            font-size: 0.95rem;
+            color: #1C3315;
+            line-height: 1.5;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s;
+            opacity: 0;
+            margin-top: 10px;
+        }
+        .scheme-description.expanded {
+            max-height: 500px;
+            opacity: 1;
+            padding-top: 10px;
+            border-top: 1px solid rgba(47, 89, 38, 0.2);
+        }
+        #chatToggleBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #43a047 60%, #81c784 100%);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        #chatContainer {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 370px;
+            height: 520px;
+            background: #fff;
+            border-radius: 18px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        .chat-header {
+            background: linear-gradient(90deg, #388e3c 70%, #81c784 100%);
+            color: white;
+            text-align: center;
+            padding: 14px;
+            font-weight: bold;
+        }
+        .chat-box {
+            flex: 1;
+            padding: 14px;
+            overflow-y: auto;
+            background: #f8fff8;
+        }
+        .message {
+            padding: 10px 16px;
+            border-radius: 20px;
+            max-width: 85%;
+            margin-bottom: 10px;
+        }
+        .user {
+            background: linear-gradient(90deg, #43a047 80%, #81c784 100%);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .bot {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+            padding: 8px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #b2d8b2;
+            border-radius: 8px;
+            margin-right: 8px;
+        }
+        .chat-input button {
+            padding: 10px 18px;
+            background: linear-gradient(90deg, #43a047 80%, #81c784 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/static/images/logo.png" alt="Farmlytics Logo">
+                <span>Farmlytics</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#prediction">Predict</a></li>
+                <li><a href="/#guide">Guidance</a></li>
+                <li><a href="/#dashboard" class="nav-link active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" style="height: 40vh; min-height: 350px;">
+        <div class="hero-content" style="padding-top: 10vh;">
+            <h1 class="hero-title" id="dashboardTitle">Dynamic Crop Analysis Dashboard</h1>
+            <p class="hero-subtitle">Visualizing comparative insights for data-driven farming decisions</p>
+        </div>
+    </section>
+
+    <section id="dashboard-section">
+        <div class="container">
+            <h2 class="section-title">Visualizations</h2>
+            
+            <div class="charts-grid-single-large">
+                <div class="chart-card-single-large">
+                    <iframe title="Crop prediction" src="https://app.powerbi.com/view?r=eyJrIjoiOTBkMGU4M2UtYzBiOC00NzQyLTlmMGUtZDY2ZDkyMzFiM2ZkIiwidCI6IjZiOGI4Mjk2LWJkZmYtNGFkOC05M2FkLTg0YmNiZjM4NDJmNSJ9" frameborder="0" allowFullScreen="true"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="schemes-section">
+        <h2 class="section-title">Government Schemes for Farmers 🏛️</h2>
+        <div class="schemes-grid" id="schemesGrid">
+            <p style="color: #E8F3E6; text-align: center; width: 100%;">Loading scheme data...</p>
+        </div>
+    </section>
+    
+    <footer style="background: #1C3315; color: #E8F3E6; text-align: center; padding: 1.5rem 0; margin-top: 40px;">
+        <p>Team Farmlytics</p>
+    </footer>
+    <script src="/static/js/dashboard.js"></script>
+    
+    <button id="chatToggleBtn" aria-label="Toggle Chatbot">💬</button>
+    <div id="chatContainer">
+        <div class="chat-header">🌱 SmartCrop Chatbot</div>
+        <div class="chat-box" id="chatBox">
+            <div class="message bot">Hello! I'm your SmartCrop Advisor Bot. I can help you with crop stages, financials, pests, or market information.</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ask me anything...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+    <script>
+        const FLASK_CHATBOT_URL = 'http://127.0.0.1:5000/chatbot'; 
+        const chatContainer = document.getElementById('chatContainer');
+        const chatToggleBtn = document.getElementById('chatToggleBtn');
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        chatToggleBtn.addEventListener('click', () => {
+            chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        function appendMessage(sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = message.replace(/\n/g, '<br>');
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            appendMessage('user', message);
+            userInput.value = '';
+            sendButton.disabled = true;
+            try {
+                const res = await fetch(FLASK_CHATBOT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await res.json();
+                appendMessage('bot', data.reply);
+            } catch (err) {
+                appendMessage('bot', '🚨 Error: Could not reach the server.');
+            } finally {
+                sendButton.disabled = false;
+            }
+        }
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+    </script>
+</body>
+</html>
