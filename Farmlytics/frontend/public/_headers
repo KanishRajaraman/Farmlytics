@@ -1,0 +1,18 @@
+# Netlify headers configuration
+# Cache control and security headers
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Access-Control-Allow-Origin: *
+
+/static/*
+  Cache-Control: public, max-age=31536000
+
+/static/images/*
+  Cache-Control: public, max-age=31536000
+
+/static/videos/*
+  Cache-Control: public, max-age=31536000
+
